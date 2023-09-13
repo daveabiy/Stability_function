@@ -4,7 +4,7 @@
 
 ---
 
-![1694624907004](image/README/1694624907004.png "intro")
+![firstpage](image/README/firstpage.JPG)
 
 ### Document about the Hackathon:
 
@@ -53,9 +53,9 @@ Machine Learning for Improving Surface-Layer-Flux Estimates: `https://link.sprin
    1. Train a random forest to predict stability function. Optimise hyper--parameters.parameters
    2. Train a MLP to predict the stability function. Optimise hyper--parameters.parameters.
 
-![1694624201527](image/README/1694624201527.png "input and output")
+![in_out](image/README/input_output.JPG "input and output")
 
-![1694624744299](image/README/1694624744299.png "tasks")
+![tasks](image/README/tasks.JPG "tasks")
 
 ### Message from Helena,
 
