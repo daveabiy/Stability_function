@@ -18,6 +18,101 @@ This document provides information about the Stability Function Hackathon.
 
 The hackathon is focused on developing a machine learning model to predict the stability of the surface layer of the Earth's atmosphere. The document includes an introduction to the hackathon, information about the data source, tasks, and message from the organizers.
 
+\section{Theory}
+\subsetion{Advection Equation}
+
+We start from the thermo-dynamic energy equation, where \theta is the potential temperature, T is the temperature, p is the pressure, \rho is the density, \vec{u} is the velocity field, and \vec{g} is the gravitational acceleration.
+\begin{equation}
+\frac{D \theta}{D t} = \frac{\partial \theta}{\partial t} + \vec{u} \cdot \nabla \theta = \frac{\theta}{p} \frac{D p}{D t} - \frac{\theta}{\rho} \frac{D \rho}{D t} + \frac{\theta}{\rho} \vec{g} \cdot \vec{u}
+\end{equation}
+where $\frac{D}{D t}$ is the material derivative.
+
+The advention equation is given by
+\begin{equation}
+\frac{\partial \phi}{\partial t} + \vec{u} \cdot \nabla \phi = 0
+\end{equation}
+where $\phi$ is the quantity being advected, $\vec{u}$ is the velocity field, and $t$ is time.
+
+The reason why the Advection Equation is important is because it is the simplest form of the continuity equation, which is a statement of conservation of mass. The continuity equation is given by
+\begin{equation}
+\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vec{u}) = 0
+\end{equation}
+where $\rho$ is the density of the fluid.
+
+The weather can be modeled using the Navier-Stokes equations, which are given by
+\begin{equation}
+\frac{\partial \vec{u}}{\partial t} + \vec{u} \cdot \nabla \vec{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \vec{u} + \vec{g}
+\end{equation}
+\begin{equation}
+\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vec{u}) = 0
+\end{equation}
+where $\vec{u}$ is the velocity field, $p$ is the pressure, $\rho$ is the density, $\nu$ is the kinematic viscosity, and $\vec{g}$ is the gravitational acceleration.
+
+The descrte form of the thermo-dynamic energy equation is given by
+\begin{equation}
+\frac{\theta^{n+1} - \theta^n}{\Delta t} + \vec{u} \cdot \nabla \theta = \frac{\theta}{p} \frac{D p}{D t} - \frac{\theta}{\rho} \frac{D \rho}{D t} + \frac{\theta}{\rho} \vec{g} \cdot \vec{u}
+\end{equation}
+where $\theta$ is the potential temperature, $p$ is the pressure, $\rho$ is the density, $\vec{u}$ is the velocity field, and $\vec{g}$ is the gravitational acceleration.
+
+The discrete form of the advection equation is given by
+\begin{equation}
+\frac{\phi^{n+1} - \phi^n}{\Delta t} + \vec{u} \cdot \nabla \phi = 0
+\end{equation}
+where $\phi$ is the quantity being advected, $\vec{u}$ is the velocity field, and $t$ is time.
+
+The discrete form of the Navier-Stokes equations is given by
+\begin{equation}
+\frac{\vec{u}^{n+1} - \vec{u}^n}{\Delta t} + \vec{u} \cdot \nabla \vec{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \vec{u} + \vec{g}
+\end{equation}
+\begin{equation}
+\frac{\rho^{n+1} - \rho^n}{\Delta t} + \nabla \cdot (\rho \vec{u}) = 0
+\end{equation}
+where $\vec{u}$ is the velocity field, $p$ is the pressure, $\rho$ is the density, $\nu$ is the kinematic viscosity, and $\vec{g}$ is the gravitational acceleration.
+
+Every halving of the grid size increases the accuracy of the model by a factor of 8. and halving the wind speed increases the accuracy of the model by a factor of 2, implying the computational cost of the model increases by a factor of 16.
+
+\subsection{Stability Function}
+
+The stability function is given by
+\begin{equation}
+f = \frac{g}{\theta} \frac{\partial \theta}{\partial z}
+\end{equation}
+where $f$ is the stability function, $g$ is the gravitational acceleration, $\theta$ is the potential temperature, and $z$ is the height.
+
+The stability function is used to determine the stability of the surface layer of the Earth's atmosphere. 
+Assuming there is no heat flux, the wind speed is given by the stability function, given the initial wind speed is u_{0} and the initial height is z_{0},
+\begin{equation}
+u = u_{0} e^{f (z - z_{0})}
+\end{equation}
+where $u$ is the wind speed, $u_{0}$ is the initial wind speed, $z$ is the height, $z_{0}$ is the initial height, and $f$ is the stability function.
+
+However in real life, there is a heat flux, which is given by
+\begin{equation}
+\frac{\partial \theta}{\partial t} = \frac{\partial \theta}{\partial z} \frac{\partial z}{\partial t} = \frac{\partial \theta}{\partial z} u
+\end{equation}
+where $\theta$ is the potential temperature, $z$ is the height, and $u$ is the wind speed.
+And that is the reason why the stability function is used to determine the stability of the surface layer of the Earth's atmosphere.
+
+\subsection{Richardson Number}
+The Richardson number is given by 
+\begin{equation}
+Ri = \frac{g}{\theta} \frac{\partial \theta}{\partial z} \frac{z}{u^2}
+\end{equation}
+where $Ri$ is the Richardson number, $g$ is the gravitational acceleration, $\theta$ is the potential temperature, $z$ is the height, and $u$ is the wind speed.
+
+Richardson number is used to determine the stability of the surface layer of the Earth's atmosphere. It is a funciton of vertical gradient of potential temperature, height, and wind speed.
+
+We want the machine to learn the Richardson number from the data.
+
+\subsection{Monin-Obukhov Similarity Theory}
+
+The Monin-Obukhov Similarity Theory is given by
+\begin{equation}
+\frac{\overline{u'w'}}{\overline{u'^2}} = \frac{\overline{v'w'}}{\overline{v'^2}} = \frac{\overline{w'w'}}{\overline{u'^2}} = -\frac{\overline{\theta'w'}}{\overline{u'\theta'}}
+\end{equation}
+
+The Moin-Obukhov Similarity Theory is used to determine the stability of the surface layer of the Earth's atmosphere. It is a function of the vertical gradient of potential temperature, height, and wind speed. 
+
 \section{Examples Available}
 
 The hackathon includes examples of machine learning models for predicting the stability of the surface layer of the Earth's atmosphere.
