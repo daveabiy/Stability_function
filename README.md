@@ -26,9 +26,9 @@ Machine Learning for Improving Surface-Layer-Flux Estimates: `https://link.sprin
 ### Data source
 
 1. `https://fluxnet.org/data/`
+2. [https://zenodo.org/record/8340312/files/bath-hackathon-1.0.2.tar.gz?download=1](https://zenodo.org/record/8340312/files/bath-hackathon-1.0.2.tar.gz?download=1)
 
 **PLEASE DO NOT PUBLISH ANYTHING USING THIS DATA WITHOUT REFERRING TO THEIR DATA POLICY**
-
 
 ### Tasks
 
