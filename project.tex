@@ -19,15 +19,62 @@ This document provides information about the Stability Function Hackathon.
 The hackathon is focused on developing a machine learning model to predict the stability of the surface layer of the Earth's atmosphere. The document includes an introduction to the hackathon, information about the data source, tasks, and message from the organizers.
 
 \section{Theory}
-\subsetion{Advection Equation}
+Our theoretical path leads us from the climate modeling what we call the Primitive equations:
+\newline
+1. The equation explaining the horizontal motion of the atmosphere is given by
+\begin{equation}
+\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} + w \frac{\partial u}{\partial z} = - \frac{1}{\rho} \frac{\partial p}{\partial x} + fv
+\end{equation}
+where $u$ is the wind speed in the $x$ direction, $v$ is the wind speed in the $y$ direction, $w$ is the wind speed in the $z$ direction, $t$ is the time, $x$ is the $x$ coordinate, $y$ is the $y$ coordinate, $z$ is the $z$ coordinate, $\rho$ is the density, $p$ is the pressure, and $f$ is the Coriolis parameter.
+\newline
+2. The Hydrostatic equilibrium equation is given by
+\begin{equation}
+\frac{\partial p}{\partial z} = - \rho g
+\end{equation}
+where $p$ is the pressure, $z$ is the height, $\rho$ is the density, and $g$ is the gravitational acceleration.
+\newline
+3. The continuity equation is given by
+\begin{equation}
+\frac{\partial \rho}{\partial t} + \frac{\partial \rho u}{\partial x} + \frac{\partial \rho v}{\partial y} + \frac{\partial \rho w}{\partial z} = 0
+\end{equation}
+where $\rho$ is the density, $u$ is the wind speed in the $x$ direction, $v$ is the wind speed in the $y$ direction, $w$ is the wind speed in the $z$ direction, $t$ is the time, $x$ is the $x$ coordinate, $y$ is the $y$ coordinate, and $z$ is the $z$ coordinate.
+\newline
+4. The thermo-dynamic equation is given by
+\begin{equation}
+\frac{\partial \theta}{\partial t} + u \frac{\partial \theta}{\partial x} + v \frac{\partial \theta}{\partial y} + w \frac{\partial \theta}{\partial z} = 0
+\end{equation}
+where $\theta$ is the potential temperature, $u$ is the wind speed in the $x$ direction, $v$ is the wind speed in the $y$ direction, $w$ is the wind speed in the $z$ direction, $t$ is the time, $x$ is the $x$ coordinate, $y$ is the $y$ coordinate, and $z$ is the $z$ coordinate.
 
-We start from the thermo-dynamic energy equation, where \theta is the potential temperature, T is the temperature, p is the pressure, \rho is the density, \vec{u} is the velocity field, and \vec{g} is the gravitational acceleration.
+The above equations are used to determine the stability of the surface layer of the Earth's atmosphere. They are a funciton of wind speed, height, and potential temperature.
+The variables we use for these functions:
+
+\begin{list}{}{}
+\item LWdown - Longwave radiation ($W m^{-2}$)
+\item Precip - precipitation ($mm/hr$)
+\item Psurf - Surface Pressure ($kPa$)
+\item Qair - surface air specific humidity ($km km^{-1}$)
+\item SWdown - Shortwave radiation ($W m^{-2}$)
+\item Tair - Air temperature ($K$)
+\item Ustar - Friction velocity ($m s^{-1}$) 
+\item $u_{*}$ - surface friction wind speed, 
+\item $k$ - von Karman constant, 
+\item $z_{0}$ - initial height, 
+\item $\psi$ - stability function, 
+\item $Ri$ - Richardson number
+\item $u$ - wind speed in the $x$ direction, $v$ - wind speed in the $y$ direction, $w$ - wind speed in the $z$ direction
+\item Z0 - surface roughness ($m$)
+\item Leaf Area Index - Leaf material in region
+\item $\theta$ - potential temperature
+\end{list}
+
+We start from the thermo-dynamic energy equation, where $\theta$ is the potential temperature, T is the temperature, p is the pressure, $\rho$ is the density, $\vec{u}$ is the velocity field, and $\vec{g}$ is the gravitational acceleration.
+
 \begin{equation}
 \frac{D \theta}{D t} = \frac{\partial \theta}{\partial t} + \vec{u} \cdot \nabla \theta = \frac{\theta}{p} \frac{D p}{D t} - \frac{\theta}{\rho} \frac{D \rho}{D t} + \frac{\theta}{\rho} \vec{g} \cdot \vec{u}
 \end{equation}
 where $\frac{D}{D t}$ is the material derivative.
 
-The advention equation is given by
+The Advention equation is given by
 \begin{equation}
 \frac{\partial \phi}{\partial t} + \vec{u} \cdot \nabla \phi = 0
 \end{equation}
@@ -48,17 +95,17 @@ The weather can be modeled using the Navier-Stokes equations, which are given by
 \end{equation}
 where $\vec{u}$ is the velocity field, $p$ is the pressure, $\rho$ is the density, $\nu$ is the kinematic viscosity, and $\vec{g}$ is the gravitational acceleration.
 
-The descrte form of the thermo-dynamic energy equation is given by
+The discrete form of the thermo-dynamic energy equation is given by
 \begin{equation}
 \frac{\theta^{n+1} - \theta^n}{\Delta t} + \vec{u} \cdot \nabla \theta = \frac{\theta}{p} \frac{D p}{D t} - \frac{\theta}{\rho} \frac{D \rho}{D t} + \frac{\theta}{\rho} \vec{g} \cdot \vec{u}
 \end{equation}
 where $\theta$ is the potential temperature, $p$ is the pressure, $\rho$ is the density, $\vec{u}$ is the velocity field, and $\vec{g}$ is the gravitational acceleration.
 
-The discrete form of the advection equation is given by
+The discrete form of the Advection equation is given by
 \begin{equation}
 \frac{\phi^{n+1} - \phi^n}{\Delta t} + \vec{u} \cdot \nabla \phi = 0
 \end{equation}
-where $\phi$ is the quantity being advected, $\vec{u}$ is the velocity field, and $t$ is time.
+where $\phi$ is the quantity being Advection, $\vec{u}$ is the velocity field, and $t$ is time.
 
 The discrete form of the Navier-Stokes equations is given by
 \begin{equation}
@@ -69,7 +116,7 @@ The discrete form of the Navier-Stokes equations is given by
 \end{equation}
 where $\vec{u}$ is the velocity field, $p$ is the pressure, $\rho$ is the density, $\nu$ is the kinematic viscosity, and $\vec{g}$ is the gravitational acceleration.
 
-Every halving of the grid size increases the accuracy of the model by a factor of 8. and halving the wind speed increases the accuracy of the model by a factor of 2, implying the computational cost of the model increases by a factor of 16.
+Every halving of the grid size increases the computational cost and memory requirement of the model by a factor of 8. Halving the grid size also leads to needing to halve the timestep, implying the computational cost of the model increases by a factor of 16.
 
 \subsection{Stability Function}
 
@@ -80,11 +127,11 @@ f = \frac{g}{\theta} \frac{\partial \theta}{\partial z}
 where $f$ is the stability function, $g$ is the gravitational acceleration, $\theta$ is the potential temperature, and $z$ is the height.
 
 The stability function is used to determine the stability of the surface layer of the Earth's atmosphere. 
-Assuming there is no heat flux, the wind speed is given by the stability function, given the initial wind speed is u_{0} and the initial height is z_{0},
+
 \begin{equation}
-u = u_{0} e^{f (z - z_{0})}
+u(z) = \frac{u_{*}}{k} \left[\ln \frac{z}{z_{0}} + \psi(z,z_{0},L)\right]
 \end{equation}
-where $u$ is the wind speed, $u_{0}$ is the initial wind speed, $z$ is the height, $z_{0}$ is the initial height, and $f$ is the stability function.
+where $u$ is the wind speed, $u_{*}$ is the surface friction wind speed, $z$ is the height, $z_{0}$ is the initial height, and $\psi$ is the stability function.
 
 However in real life, there is a heat flux, which is given by
 \begin{equation}
@@ -96,23 +143,13 @@ And that is the reason why the stability function is used to determine the stabi
 \subsection{Richardson Number}
 The Richardson number is given by 
 \begin{equation}
-Ri = \frac{g}{\theta} \frac{\partial \theta}{\partial z} \frac{z}{u^2}
+Ri = \frac{g}{\theta} \frac{\partial \theta}{\partial z} / (\frac{\partial u}{\partial z})^2
 \end{equation}
 where $Ri$ is the Richardson number, $g$ is the gravitational acceleration, $\theta$ is the potential temperature, $z$ is the height, and $u$ is the wind speed.
 
-Richardson number is used to determine the stability of the surface layer of the Earth's atmosphere. It is a funciton of vertical gradient of potential temperature, height, and wind speed.
+Richardson number is used to determine the stability of the surface layer of the Earth's atmosphere. It is a function of vertical gradient of potential temperature, height, and wind speed.
 
 We want the machine to learn the Richardson number from the data.
-
-\subsection{Monin-Obukhov Similarity Theory}
-
-The Monin-Obukhov Similarity Theory is given by
-\begin{equation}
-\frac{\overline{u'w'}}{\overline{u'^2}} = \frac{\overline{v'w'}}{\overline{v'^2}} = \frac{\overline{w'w'}}{\overline{u'^2}} = -\frac{\overline{\theta'w'}}{\overline{u'\theta'}}
-\end{equation}
-
-The Moin-Obukhov Similarity Theory is used to determine the stability of the surface layer of the Earth's atmosphere. It is a function of the vertical gradient of potential temperature, height, and wind speed. 
-
 \section{Examples Available}
 
 The hackathon includes examples of machine learning models for predicting the stability of the surface layer of the Earth's atmosphere.
